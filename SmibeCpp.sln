@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MixPanelCpp", "MixpanelCpp\src\MixPanelCpp.vcxproj", "{CDFF58FA-9AAE-41A8-BF17-C7A07F503852}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BC021D19-D96F-4F51-877D-F8B850F752F4} = {BC021D19-D96F-4F51-877D-F8B850F752F4}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MixPanel_UnitTest", "MixpanelCpp\tests\MixPanel_UnitTest.vcxproj", "{F8BF70E2-65B8-499A-B3DD-690DBA8D04C3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BC021D19-D96F-4F51-877D-F8B850F752F4} = {BC021D19-D96F-4F51-877D-F8B850F752F4}
+		{CDFF58FA-9AAE-41A8-BF17-C7A07F503852} = {CDFF58FA-9AAE-41A8-BF17-C7A07F503852}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinUtils", "WinUtils\src\WinUtils.vcxproj", "{BC021D19-D96F-4F51-877D-F8B850F752F4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WinUtils_UnitTest", "WinUtils\tests\WinUtils_UnitTest.vcxproj", "{97E89936-57D4-4354-9751-E229F597BB5F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BC021D19-D96F-4F51-877D-F8B850F752F4} = {BC021D19-D96F-4F51-877D-F8B850F752F4}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDFF58FA-9AAE-41A8-BF17-C7A07F503852}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CDFF58FA-9AAE-41A8-BF17-C7A07F503852}.Debug|Win32.Build.0 = Debug|Win32
+		{CDFF58FA-9AAE-41A8-BF17-C7A07F503852}.Release|Win32.ActiveCfg = Release|Win32
+		{CDFF58FA-9AAE-41A8-BF17-C7A07F503852}.Release|Win32.Build.0 = Release|Win32
+		{F8BF70E2-65B8-499A-B3DD-690DBA8D04C3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F8BF70E2-65B8-499A-B3DD-690DBA8D04C3}.Debug|Win32.Build.0 = Debug|Win32
+		{F8BF70E2-65B8-499A-B3DD-690DBA8D04C3}.Release|Win32.ActiveCfg = Release|Win32
+		{F8BF70E2-65B8-499A-B3DD-690DBA8D04C3}.Release|Win32.Build.0 = Release|Win32
+		{BC021D19-D96F-4F51-877D-F8B850F752F4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC021D19-D96F-4F51-877D-F8B850F752F4}.Debug|Win32.Build.0 = Debug|Win32
+		{BC021D19-D96F-4F51-877D-F8B850F752F4}.Release|Win32.ActiveCfg = Release|Win32
+		{BC021D19-D96F-4F51-877D-F8B850F752F4}.Release|Win32.Build.0 = Release|Win32
+		{97E89936-57D4-4354-9751-E229F597BB5F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{97E89936-57D4-4354-9751-E229F597BB5F}.Debug|Win32.Build.0 = Debug|Win32
+		{97E89936-57D4-4354-9751-E229F597BB5F}.Release|Win32.ActiveCfg = Release|Win32
+		{97E89936-57D4-4354-9751-E229F597BB5F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
