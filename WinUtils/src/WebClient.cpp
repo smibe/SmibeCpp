@@ -42,6 +42,7 @@ std::unique_ptr<HttpResponse> WebClient::Get(const std::wstring& uri)
     WinHttpHandle hConnect(WinHttpConnect(m_hInternet.get(), urlHelper.GetUrl().c_str(), INTERNET_DEFAULT_HTTP_PORT, 0));
     if(hConnect == nullptr) throw Win32Exception("WinHttpConnect failed");
 
+    auto param = urlHelper.GetParameter();
     WinHttpHandle hRequest(WinHttpOpenRequest(hConnect.get(), L"GET",
         urlHelper.GetParameter().c_str(),
         NULL, WINHTTP_NO_REFERER,
@@ -56,7 +57,7 @@ std::unique_ptr<HttpResponse> WebClient::Get(const std::wstring& uri)
     if(!bResult) throw Win32Exception("WinHttpSendRequest failed");
 
     bResult = WinHttpReceiveResponse(hRequest.get(), NULL);
-    if(!bResult) throw Win32Exception("WinHttpSendRequest failed");
+    if(!bResult) throw Win32Exception("WinHttpReceiveResponse failed");
 
     DWORD dwSize = 0;
     std::vector<std::vector<char>> bufferList;
@@ -69,12 +70,39 @@ std::unique_ptr<HttpResponse> WebClient::Get(const std::wstring& uri)
             break;
 
         std::vector<char> buffer(dwSize);
-        DWORD dwDownloaded;
-        bResult = !WinHttpReadData(hRequest.get(), buffer.data(), dwSize, &dwDownloaded);
-        if(!bResult) throw Win32Exception("WinHttpSendRequest failed");
+        DWORD dwDownloaded = 0;
+        bResult = WinHttpReadData(hRequest.get(), buffer.data(), dwSize, &dwDownloaded);
+        if(!bResult) throw Win32Exception("WinHttpReadData failed");
 
         bufferList.push_back(std::move(buffer));
     } while(dwSize > 0);
 
-    return std::unique_ptr<HttpResponse>(new HttpResponse(bufferList));
+    std::vector<wchar_t> header;
+    WinHttpQueryHeaders(hRequest.get(), WINHTTP_QUERY_RAW_HEADERS_CRLF,
+        WINHTTP_HEADER_NAME_BY_INDEX, NULL,
+        &dwSize, WINHTTP_NO_HEADER_INDEX);
+
+    if(GetLastError() == ERROR_INSUFFICIENT_BUFFER)
+    {
+        header.resize(dwSize / sizeof(wchar_t));
+
+        bResult = WinHttpQueryHeaders(hRequest.get(),
+            WINHTTP_QUERY_RAW_HEADERS_CRLF,
+            WINHTTP_HEADER_NAME_BY_INDEX,
+            header.data(), &dwSize,
+            WINHTTP_NO_HEADER_INDEX);
+
+        if(!bResult) throw Win32Exception("WinHttpQueryHeaders failed");
+    }
+
+    DWORD dwStatusCode = 0;
+    dwSize = sizeof(dwStatusCode);
+    bResult = WinHttpQueryHeaders(hRequest.get(),
+        WINHTTP_QUERY_FLAG_NUMBER | WINHTTP_QUERY_STATUS_CODE,
+        WINHTTP_HEADER_NAME_BY_INDEX,
+        &dwStatusCode, &dwSize,
+        WINHTTP_NO_HEADER_INDEX);
+    if(!bResult) throw Win32Exception("WinHttp QUERY_STATUS_COSE failed");
+
+    return std::unique_ptr<HttpResponse>(new HttpResponse(header, bufferList, dwStatusCode));
 }

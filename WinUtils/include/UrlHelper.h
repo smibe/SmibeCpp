@@ -21,6 +21,14 @@ public:
 
     std::wstring GetParameter()
     {
+        auto protocolEnd = m_url.find(':');
+        if(protocolEnd == std::wstring::npos)
+            throw std::exception("Invalid Url");
+
+        auto paramStart = m_url.find('/', protocolEnd + 3);
+        if(paramStart != std::wstring::npos)
+            return m_url.substr(paramStart);
+    
         return std::wstring();
     }
 

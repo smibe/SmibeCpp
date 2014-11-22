@@ -10,14 +10,16 @@ namespace WinUtils_UnitTest
     {
     public:
 
-        TEST_METHOD(TestMethod1)
+        TEST_METHOD(WebClient_GetTest)
         {
             WebClient webClient;
-            //webClient.Get(L"http://www.google.com/nonexistingfile", [](int statusCode, std::wstring response)
+            //webClient.Get(L"http://www.msftncsi.com/ncsi.txt", [](int statusCode, std::wstring response)
             //{
             //    Assert::AreEqual(404, statusCode);
             //});
-            auto response = webClient.Get(L"http://www.google.com/nonexistingfile");
+            auto response = webClient.Get(L"http://www.msftncsi.com/ncsi.txt");
+            Assert::AreEqual("Microsoft NCSI", response->GetResponse().c_str());
+            Assert::AreEqual(200, response->GetStatus());
         }
     };
 }
